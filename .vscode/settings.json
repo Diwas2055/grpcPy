@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./client/pb/users_pb2_"
+    ]
+}

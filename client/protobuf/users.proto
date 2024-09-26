@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package users;
+
+import "google/protobuf/timestamp.proto";
+
+service Users {
+    rpc GetUsers (GetUsersRequest) returns (GetUsersResponse);
+    rpc GetUserByID (GetUserByIDRequest) returns (GetUserByIDResponse);
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+// User message definition
+message User {
+    string id = 1; // Unique identifier for the user
+    string name = 2; // User's name
+    string email = 3; // User's email address
+    string password = 4; // User's password (hashed ideally)
+    google.protobuf.Timestamp created_at = 5; // When the user was created
+    google.protobuf.Timestamp updated_at = 6; // When the user was last updated
+}
+
+// Request to get multiple users
+message GetUsersRequest {
+    int32 page = 1; // Pagination support: page number
+    int32 page_size = 2; // Pagination support: number of users per page
+}
+
+// Response containing multiple users
+message GetUsersResponse {
+    repeated User users = 1; // Array of User objects
+    int32 total_count = 2; // Total number of users for pagination
+}
+
+// Request to get a single user by ID
+message GetUserByIDRequest {
+    string id = 1; // User ID
+}
+
+// Response containing a single user
+message GetUserByIDResponse {
+    User user = 1; // Single User object
+}
+
+// Request to create a user
+message CreateUserRequest {
+    User user = 1; // User details for creation
+}
+
+// Response after creating a user
+message CreateUserResponse {
+    User user = 1; // Created User object
+    string message = 2; // Confirmation or error message
+}
+
+// Request to update a user
+message UpdateUserRequest {
+    User user = 1; // Updated User details
+}
+
+// Response after updating a user
+message UpdateUserResponse {
+    User user = 1; // Updated User object
+    string message = 2; // Confirmation or error message
+}
+
+// Request to delete a user
+message DeleteUserRequest {
+    string id = 1; // User ID to be deleted
+}
+
+// Response after deleting a user
+message DeleteUserResponse {
+    string id = 1; // ID of the deleted user
+    string message = 2; // Confirmation or error message
+}

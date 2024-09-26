@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    restart: always
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    restart: always
+    depends_on:
+      - server
+      - db
+  db:
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
